@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Dim — The editor for understanding code faster</title>
+	<meta name="description" content="Dim is a VS Code fork with Claude built in. It shows you what code does before how it does it: every file opens as a plain summary and a diagram, and the lines are there when you need them.">
+	<meta property="og:title" content="Dim — The editor for understanding code faster">
+	<meta property="og:description" content="See what code does before how it does it. A VS Code fork with Claude built in.">
+	<meta property="og:image" content="assets/images/og.png">
+	<link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="styles.css">
+	<link rel="stylesheet" href="demo.css">
+	<script>
+		try {
+			const theme = new URLSearchParams(location.search).get('theme') || localStorage.getItem('dim-theme');
+			if (theme === 'light' || theme === 'dark') {
+				document.documentElement.dataset.theme = theme;
+			}
+		} catch { }
+	</script>
+</head>
+<body>
+	<header class="nav" id="top">
+		<div class="container nav-inner">
+			<a class="brand" href="#top" aria-label="Dim home">
+				<svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="8" fill="currentColor"/><circle cx="16" cy="16" r="7" fill="var(--bg)"/><circle cx="19" cy="13" r="7" fill="currentColor"/></svg>
+				<span>Dim</span>
+			</a>
+			<nav class="nav-links" aria-label="Primary">
+				<a href="#features">Features</a>
+				<a href="#diagrams">Diagrams</a>
+				<a href="#review">Review</a>
+				<a href="#faq">FAQ</a>
+				<a href="https://github.com/lewibs/dim">GitHub</a>
+			</nav>
+			<button class="theme-toggle" type="button" aria-label="Switch to dark mode" data-theme-toggle>
+				<svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+				<svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+			</button>
+			<a class="btn btn-small btn-primary" href="#download">Download</a>
+		</div>
+	</header>
+
+	<main>
+		<!-- Hero -->
+		<section class="hero">
+			<div class="container hero-copy">
+				<p class="eyebrow">A VS Code fork with Claude built in</p>
+				<h1>The editor for<br>understanding code faster.</h1>
+				<p class="lede">Your agent writes code faster than you can read it. Dim lifts it up a level: every file opens as a plain summary and a diagram of how it fits together, so you see what the code does before you read how.</p>
+				<div class="cta-row">
+					<a class="btn btn-primary" data-download href="https://github.com/lewibs/dim/releases/latest">
+						<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1v9m0 0L4.5 6.5M8 10l3.5-3.5M2 13h12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+						<span data-download-label>Download Dim</span>
+					</a>
+					<a class="btn btn-ghost" href="#features">See how it works</a>
+				</div>
+				<p class="fineprint" data-download-other>Also available for macOS, Windows and Linux.</p>
+			</div>
+
+			<div class="container hero-media">
+				<div class="backdrop">
+					<div class="window">
+						<div class="window-bar"><i></i><i></i><i></i><span>shop — Dim</span></div>
+
+						<!-- Live demo: plain HTML recreation of Dim, animated by demo.js -->
+						<div class="demo" data-demo="hero" role="img" aria-label="Demo: a file opens on its README, switches to a class diagram, Claude adds retries in the terminal, the diagram redraws with the new class and changed method highlighted, and the change is accepted with Accept All.">
+							<div class="demo-stage" aria-hidden="true">
+								<aside class="d-activity">
+									<svg viewBox="0 0 24 24" class="is-on"><path d="M6 3h8l4 4v14H6z M14 3v4h4"/></svg>
+									<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg>
+									<svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.2"/><circle cx="6" cy="18" r="2.2"/><circle cx="18" cy="9" r="2.2"/><path d="M6 8.2v7.6M18 11.2c0 3-5 3-10.5 5"/></svg>
+									<svg viewBox="0 0 24 24"><path d="M12 3l2.2 5.3L20 10.5l-5.8 2.2L12 18l-2.2-5.3L4 10.5l5.8-2.2z"/></svg>
+								</aside>
+
+								<aside class="d-explorer">
+									<div class="d-explorer-title">Explorer</div>
+									<div class="d-file d-folder">⌄ src</div>
+									<div class="d-file is-active">paymentService.ts <span class="d-git d-git-m" data-d="git-service">M</span></div>
+									<div class="d-file">payment.ts</div>
+									<div class="d-file">paymentGateway.ts</div>
+									<div class="d-file d-file-new" data-d="new-file">retryPolicy.ts <span class="d-git d-git-u is-in">U</span></div>
+									<div class="d-file d-folder">⌄ test</div>
+									<div class="d-file">paymentService.test.ts</div>
+									<div class="d-file">package.json</div>
+								</aside>
+
+								<section class="d-main">
+									<div class="d-tabs">
+										<div class="d-tab">paymentService.ts</div>
+										<div class="d-views">
+											<span data-view="raw">Raw</span>
+											<span data-view="readme" class="is-on">README</span>
+											<span data-view="structure">Structure</span>
+											<span data-view="sequence">Sequence</span>
+										</div>
+									</div>
+
+									<div class="d-editor">
+										<div class="d-view d-readme is-shown" data-panel="readme">
+											<p class="d-readme-label">paymentService.ts</p>
+											<p>Charges the shopper's card when they check out. <b>PaymentService</b> keeps a queue of pending payments and hands each one to <b>PaymentGateway</b>, which talks to the card processor.</p>
+											<p class="d-readme-new" data-d="readme-new">When a charge fails, <b>RetryPolicy</b> decides whether to try again and waits longer after each attempt, up to three tries.</p>
+										</div>
+
+										<div class="d-view d-diagram" data-panel="structure">
+											<svg class="d-edges" data-d="edges-structure"></svg>
+											<div class="d-node" data-node="payment" style="left:48px;top:40px;width:200px">
+												<header>Payment</header>
+												<ul><li>id: string</li><li>amount: number</li><li>card: Card</li></ul>
+											</div>
+											<div class="d-node" data-node="gateway" style="left:48px;top:228px;width:200px">
+												<header>PaymentGateway</header>
+												<ul><li>charge(payment)</li><li>refund(id)</li></ul>
+											</div>
+											<div class="d-node" data-node="service" style="left:338px;top:112px;width:220px">
+												<header>PaymentService</header>
+												<ul>
+													<li>queue: Payment[]</li>
+													<li class="d-row-new" data-d="row-retry">retry: RetryPolicy</li>
+													<li data-d="row-send">charge(payment)</li>
+													<li>cancel(id)</li>
+												</ul>
+											</div>
+											<div class="d-node" data-node="retry" style="left:640px;top:120px;width:190px">
+												<header>RetryPolicy</header>
+												<ul><li>maxAttempts = 3</li><li>shouldRetry(error)</li><li>delayFor(attempt)</li></ul>
+											</div>
+										</div>
+
+										<div class="d-pill" data-d="status"><i class="d-spinner"></i>Updating diagram…</div>
+										<div class="d-pill d-pill-ok" data-d="toast">✓ Staged 2 files</div>
+
+										<div class="d-review" data-d="review">
+											<span class="d-legend"><i class="is-added"></i>Added<i class="is-changed"></i>Changed</span>
+											<span class="d-review-count">2 files changed</span>
+											<span class="d-btn">Reject All</span>
+											<span class="d-btn d-btn-primary" data-d="accept">Accept All</span>
+										</div>
+									</div>
+
+									<div class="d-terminal">
+										<div class="d-term-head"><span class="is-on">Claude</span><span>Terminal</span><span>Problems</span></div>
+										<div class="d-term-body" data-d="term"></div>
+									</div>
+								</section>
+
+								<div class="d-cursor" data-d="cursor"><svg viewBox="0 0 24 24"><path d="M5 3l14 8.5-6.2 1.4L10 19z"/></svg></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Familiar strip -->
+		<section class="strip">
+			<div class="container strip-inner">
+				<p>Built on VS Code, so your <strong>extensions</strong>, <strong>keybindings</strong> and <strong>themes</strong> come with you.</p>
+				<ul class="strip-points">
+					<li>Claude Code built in</li>
+					<li>No setup</li>
+					<li>Diagrams for every file</li>
+				</ul>
+			</div>
+		</section>
+
+		<!-- Features -->
+		<section class="features" id="features">
+			<div class="container">
+				<div class="section-head">
+					<p class="eyebrow">Abstraction</p>
+					<h2>Start high.<br>Zoom in when you need to.</h2>
+					<p class="section-sub">Code has layers: what a system does, how its parts connect, and the lines that do the work. Most editors only show you the last one. Dim lets you read each layer on its own.</p>
+				</div>
+
+				<article class="feature">
+					<div class="feature-copy">
+						<h3>See what a file does before how</h3>
+						<p>Every file opens on a short summary of its purpose and a diagram of its shape: which classes exist and how they connect, which messages go where, or which states it moves through. The code is one click away when you want the details.</p>
+						<ul class="ticks">
+							<li>A plain summary of what each file is for</li>
+							<li>Diagrams chosen to fit the code, never filler</li>
+							<li>Redrawn only when the code changes</li>
+						</ul>
+					</div>
+					<div class="window">
+						<div class="window-bar"><i></i><i></i><i></i><span>cart.ts</span></div>
+						<div class="demo" data-demo="readme" role="img" aria-label="Demo: opening cart.ts from the explorer shows a plain-language README, then a class diagram, then the raw code."></div>
+					</div>
+				</article>
+
+				<article class="feature feature-flip">
+					<div class="feature-copy">
+						<h3>Move through code by its design</h3>
+						<p>Every box, method and arrow in a diagram is a link. Click one to zoom into that piece, or follow it to the file where it lives. You trace how things connect without reading every line along the way.</p>
+						<ul class="ticks">
+							<li>Click a class to zoom into it</li>
+							<li>Click a method to follow it to its file</li>
+							<li>Click a call to see the logic behind it</li>
+						</ul>
+					</div>
+					<div class="window">
+						<div class="window-bar"><i></i><i></i><i></i><span>Structure → Sequence → Logic</span></div>
+						<div class="demo" data-demo="navigate" role="img" aria-label="Demo: clicking placeOrder() in a class diagram opens its sequence diagram, and clicking the createOrder() call opens the logic of that function in another file."></div>
+					</div>
+				</article>
+
+				<article class="feature">
+					<div class="feature-copy">
+						<h3>Zoom out to the whole system</h3>
+						<p>Some questions span many files, like "what happens when someone clicks Buy?" Ask it, and Claude draws the flow across every component involved, then opens the files at the lines that matter.</p>
+						<ul class="ticks">
+							<li>One picture for a flow that crosses many files</li>
+							<li>The right files open as Claude explains</li>
+							<li>Saved in your repo for the next person who asks</li>
+						</ul>
+					</div>
+					<div class="window">
+						<div class="window-bar"><i></i><i></i><i></i><span>Big picture</span></div>
+						<div class="demo" data-demo="big-picture" role="img" aria-label="Demo: asking Claude what happens when someone clicks Buy draws the flow from the checkout page to the server, then opens the file where the card is charged."></div>
+					</div>
+				</article>
+			</div>
+		</section>
+
+		<!-- Diagram kinds tabs -->
+		<section class="kinds" id="diagrams">
+			<div class="container">
+				<div class="section-head">
+					<p class="eyebrow">Diagrams</p>
+					<h2>The right abstraction for each file</h2>
+					<p class="section-sub">No single diagram explains every file. Claude Haiku reads each one and picks the view that does, drawn with the code's real names.</p>
+				</div>
+
+				<div class="tabs" role="tablist" aria-label="Diagram kinds">
+					<button role="tab" aria-selected="true" aria-controls="kind-panel" data-kind="structure">Structure</button>
+					<button role="tab" aria-selected="false" aria-controls="kind-panel" data-kind="sequence">Sequence</button>
+					<button role="tab" aria-selected="false" aria-controls="kind-panel" data-kind="logic">Logic</button>
+					<button role="tab" aria-selected="false" aria-controls="kind-panel" data-kind="states">States</button>
+					<button role="tab" aria-selected="false" aria-controls="kind-panel" data-kind="data">Data</button>
+				</div>
+
+				<div class="kind-panel" id="kind-panel" role="tabpanel">
+					<div class="kind-copy">
+						<h3 data-kind-title>Structure</h3>
+						<p data-kind-body></p>
+					</div>
+					<div class="window">
+						<div class="window-bar"><i></i><i></i><i></i><span data-kind-file></span></div>
+						<div class="demo" data-kind-demo role="img"></div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Review -->
+		<section class="review" id="review">
+			<div class="container review-inner">
+				<div class="section-head">
+					<p class="eyebrow">Control</p>
+					<h2>Review the shape of a change,<br>not just the diff.</h2>
+					<p class="section-sub">When the agent finishes, Dim redraws the diagrams it touched and highlights what changed, so you see how the design moved before you read a single line. Nothing lands until you approve it.</p>
+				</div>
+
+				<div class="window window-wide">
+					<div class="window-bar"><i></i><i></i><i></i><span>Review · 6 files changed</span></div>
+					<div class="demo" data-demo="review" role="img" aria-label="Demo: Claude finishes changing six files, the class diagram marks the added and changed classes, the raw view shows the diff, and Accept All stages everything."></div>
+				</div>
+
+				<div class="review-points">
+					<div>
+						<h4>One decision</h4>
+						<p>Accept All stages every change in the workspace. You approve one change set, not hundreds of hunks.</p>
+					</div>
+					<div>
+						<h4>Nothing slips past</h4>
+						<p>Changes from the agent, a shell command or your own typing all wait for review. If git hasn't staged it, you haven't approved it.</p>
+					</div>
+					<div>
+						<h4>Never out of date</h4>
+						<p>Diagrams redraw whenever the code under them changes, so the picture never drifts from the code.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Grid -->
+		<section class="grid-section">
+			<div class="container">
+				<div class="section-head">
+					<p class="eyebrow">Built in</p>
+					<h2>Ready when you open it</h2>
+				</div>
+				<div class="grid">
+					<div class="card">
+						<div class="card-icon"><svg viewBox="0 0 24 24"><path d="M12 3l2.4 5.6L20 11l-5.6 2.4L12 19l-2.4-5.6L4 11l5.6-2.4z"/></svg></div>
+						<h4>Claude is built in</h4>
+						<p>Claude and the diagrams are part of the editor. It works the same in every project, with no plugin to install.</p>
+					</div>
+					<div class="card">
+						<div class="card-icon"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div>
+						<h4>A real VS Code</h4>
+						<p>Dim is a fork, not a wrapper. Debugger, terminal, extensions and language servers all work as you expect.</p>
+					</div>
+					<div class="card">
+						<div class="card-icon"><svg viewBox="0 0 24 24"><path d="M4 4h10l6 6v10H4z M14 4v6h6"/></svg></div>
+						<h4>Records stay with your code</h4>
+						<p>Summaries and diagrams are saved inside your project and kept out of git. Nothing is uploaded except the code sent to Claude.</p>
+					</div>
+					<div class="card">
+						<div class="card-icon"><svg viewBox="0 0 24 24"><path d="M12 4v16M6 10l6-6 6 6"/></svg></div>
+						<h4>Cheap to keep current</h4>
+						<p>Diagrams use Claude Haiku and redraw only when a file changes, at a few cents per file.</p>
+					</div>
+					<div class="card">
+						<div class="card-icon"><svg viewBox="0 0 24 24"><path d="M5 12l4 4 10-10"/></svg></div>
+						<h4>Shows real progress</h4>
+						<p>While a diagram is generating, you see each step and how long it has taken, not a spinner that never moves.</p>
+					</div>
+					<div class="card">
+						<div class="card-icon"><svg viewBox="0 0 24 24"><path d="M4 17l6-6-6-6M12 19h8"/></svg></div>
+						<h4>Chat or terminal</h4>
+						<p>Work with Claude in its own chat window or in the terminal. Both work the same way.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- FAQ -->
+		<section class="faq" id="faq">
+			<div class="container faq-inner">
+				<div class="section-head">
+					<p class="eyebrow">FAQ</p>
+					<h2>Questions</h2>
+				</div>
+				<div class="faq-list">
+					<details>
+						<summary>Do I need a Claude account?</summary>
+						<p>Yes. Dim runs Claude Code under the hood, so you need the Claude Code CLI signed in. Diagram generation uses Claude Haiku through that same CLI.</p>
+					</details>
+					<details>
+						<summary>Will my VS Code extensions work?</summary>
+						<p>Dim is a fork of VS Code, so extensions, settings, keybindings and themes work the way they do in VS Code.</p>
+					</details>
+					<details>
+						<summary>What does diagram generation cost?</summary>
+						<p>Each file is redrawn only when its contents change. In our use that comes to a few cents per changed file in Haiku usage.</p>
+					</details>
+					<details>
+						<summary>Does Dim hide the code?</summary>
+						<p>Never. The summary and diagrams sit on top of the code, not in place of it. The code is one click away, and going to a definition or a search result opens the code directly.</p>
+					</details>
+					<details>
+						<summary>Why is review all or nothing?</summary>
+						<p>Approving hunks one by one keeps you down at the line level. Dim shows you the shape of the whole change, and you accept it as a whole or reject the files you don't want.</p>
+					</details>
+				</div>
+			</div>
+		</section>
+
+		<!-- Final CTA -->
+		<section class="final" id="download">
+			<div class="container final-inner">
+				<h2>Open the codebase you know least.<br>Understand it this afternoon.</h2>
+				<div class="cta-row">
+					<a class="btn btn-primary" data-download href="https://github.com/lewibs/dim/releases/latest">
+						<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1v9m0 0L4.5 6.5M8 10l3.5-3.5M2 13h12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+						<span data-download-label>Download Dim</span>
+					</a>
+					<a class="btn btn-ghost" href="https://github.com/lewibs/dim">View on GitHub</a>
+				</div>
+				<ul class="platforms">
+					<li><a href="https://github.com/lewibs/dim/releases/latest">macOS</a></li>
+					<li><a href="https://github.com/lewibs/dim/releases/latest">Windows</a></li>
+					<li><a href="https://github.com/lewibs/dim/releases/latest">Linux</a></li>
+				</ul>
+			</div>
+		</section>
+	</main>
+
+	<footer class="footer">
+		<div class="container footer-inner">
+			<a class="brand" href="#top">
+				<svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="8" fill="currentColor"/><circle cx="16" cy="16" r="7" fill="var(--bg)"/><circle cx="19" cy="13" r="7" fill="currentColor"/></svg>
+				<span>Dim</span>
+			</a>
+			<nav class="footer-links" aria-label="Footer">
+				<a href="https://github.com/lewibs/dim">GitHub</a>
+				<a href="https://github.com/lewibs/dim/releases">Releases</a>
+				<a href="https://github.com/lewibs/dim/issues">Issues</a>
+			</nav>
+			<p class="footer-note">Dim is built on <a href="https://github.com/microsoft/vscode">Code - OSS</a>. Not affiliated with Microsoft or Anthropic.</p>
+		</div>
+	</footer>
+
+	<script src="demo.js"></script>
+	<script src="scenes.js"></script>
+	<script src="main.js"></script>
+</body>
+</html>
