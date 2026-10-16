@@ -184,6 +184,7 @@
 						<p>Every file opens on a short summary of its purpose and a diagram of its shape: which classes exist and how they connect, which messages go where, or which states it moves through. The code is one click away when you want the details.</p>
 						<ul class="ticks">
 							<li>A plain summary of what each file is for</li>
+							<li>Which files use it, one click away</li>
 							<li>Diagrams chosen to fit the code, never filler</li>
 							<li>Redrawn only when the code changes</li>
 						</ul>
@@ -223,6 +224,22 @@
 					<div class="window">
 						<div class="window-bar"><i></i><i></i><i></i><span>Big picture</span></div>
 						<div class="demo" data-demo="big-picture" role="img" aria-label="Demo: asking Claude what happens when someone clicks Buy draws the flow from the checkout page to the server, then opens the file where the card is charged."></div>
+					</div>
+				</article>
+
+				<article class="feature feature-flip">
+					<div class="feature-copy">
+						<h3>Know what your tests prove</h3>
+						<p>Open a test file and Dim lists every test in plain words: what it checks, what it feeds in and what it expects. It also says what each test mocks, so you can tell how much of the real code the suite actually runs. When a change adds or edits tests, those rows are marked for review.</p>
+						<ul class="ticks">
+							<li>Every test in one table, in plain words</li>
+							<li>What is mocked, and what runs for real</li>
+							<li>New and changed tests marked for review</li>
+						</ul>
+					</div>
+					<div class="window">
+						<div class="window-bar"><i></i><i></i><i></i><span>cart.test.ts</span></div>
+						<div class="demo" data-demo="tests" role="img" aria-label="Demo: opening cart.test.ts shows each test with what it checks, its input, the expected result and what it mocks, then a change adds one test and edits another, both marked for review."></div>
 					</div>
 				</article>
 			</div>

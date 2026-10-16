@@ -320,6 +320,29 @@
 .d-chips span { margin-right: 4px; color: var(--text-faint); }
 .d-chips i { padding: 2px 8px; border-radius: 6px; border: 1px solid var(--line-strong); font-family: var(--font-mono); font-size: 11.5px; font-style: normal; color: var(--text); }
 
+/* ---------- Tests table ---------- */
+.d-tests { max-width: none; padding: 22px 28px 64px; font-size: 13px; line-height: 1.5; }
+.d-mock-new { display: none; }
+.d-mock-new.is-in { display: inline; }
+.d-tests h4 { margin: 14px 0 6px; font-size: 13.5px; font-weight: 600; color: var(--text); }
+.d-tests table { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+.d-tests th, .d-tests td { padding: 6px 8px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+.d-tests th { font-weight: 600; color: var(--text-faint); }
+.d-tests td b { font-weight: 600; }
+.d-tests tr.d-reveal { opacity: 0; }
+.d-tests tr.d-reveal.is-in { opacity: 1; animation: none; transition: opacity 0.35s ease; }
+.d-tests code { font-family: var(--font-mono); font-size: 0.95em; color: var(--text); }
+.d-faint { color: var(--text-faint); }
+.d-test-new { display: none; }
+.d-test-new.is-in { display: table-row; animation: d-slide-right 0.35s ease both; }
+.d-test-badge { display: none; width: max-content; margin-bottom: 3px; padding: 0 5px; border: 1px solid currentColor; border-radius: 4px; font-size: 10px; font-style: normal; }
+.d-tests tr.is-added > td { background: var(--added-soft); }
+.d-tests tr.is-added > td:first-child { box-shadow: inset 3px 0 0 var(--added); }
+.d-tests tr.is-added .d-test-badge { display: block; color: var(--added); }
+.d-tests tr.is-changed > td { background: var(--changed-soft); }
+.d-tests tr.is-changed > td:first-child { box-shadow: inset 3px 0 0 var(--changed); }
+.d-tests tr.is-changed .d-test-badge { display: block; color: var(--changed); }
+
 /* ---------- Class and entity boxes ---------- */
 .d-node header small { display: block; font-size: 10.5px; font-weight: 400; font-style: italic; color: var(--text-faint); }
 .d-node header small::before { content: '«'; }

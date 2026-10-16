@@ -37,6 +37,7 @@ A scene is registered in `scenes.js` with `dimDemo.scene(name, { width, height, 
 | `readme` | Feature 1 | Open a file from the explorer → README view → Structure → Raw → back to README. |
 | `navigate` | Feature 2 | Class diagram → click a method → its sequence diagram → click a call → another file's logic diagram with the path lit → breadcrumb back. |
 | `big-picture` | Feature 3 | Ask what happens when someone clicks Buy → a big-picture diagram draws from the browser to the server → click a box to open the code behind it. |
+| `tests` | Feature 4 | Open a test file → its tests as a table of checks, inputs, expected results and mocks → a validation summary → a change adds one test and edits another, both marked for review. |
 | `kind-structure` … `kind-data` | Diagrams tabs | One scene per diagram kind: class, sequence, logic, states, data. |
 | `review` | Review | Claude edits six files → changed nodes light up → Raw shows the hunks → Accept All stages the batch. |
 

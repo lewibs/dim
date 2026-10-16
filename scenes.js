@@ -950,6 +950,102 @@
 		}
 	});
 
+	/* ====================================================================
+	 * Feature 4: open a test file → its tests as a plain table → what is mocked → a change adds and edits tests.
+	 * ==================================================================== */
+	const cartTests = [
+		{ name: 'adds a product', checks: 'A new product becomes one line', input: 'Empty cart, add a mug', expected: '1 item, total $12', mocks: '' },
+		{ name: 'merges repeats', checks: 'The same product raises its quantity', input: 'Add a mug twice', expected: '1 item, quantity 2', mocks: '' },
+		{ name: 'applies a coupon', checks: 'A coupon comes off the total', input: '$40 cart, 10% coupon', expected: 'Total $36', mocks: '', d: 'test-coupon' },
+		{ name: 'prices in euros', checks: 'Totals use the shopper’s currency', input: '$40 cart, shopper in France', expected: 'Total €37', mocks: 'ExchangeRates' }
+	];
+	const addedTest = { name: 'rejects expired coupons', checks: 'An expired coupon is ignored', input: '$40 cart, expired coupon', expected: 'Total $40, error shown', mocks: 'Clock', d: 'test-new', isNew: true };
+
+	function testRow({ name, checks, input, expected, mocks, d, isNew }) {
+		const mocked = mocks ? `<code>${mocks}</code>` : '<span class="d-faint">None</span>';
+		const badge = `<em class="d-test-badge">${isNew ? 'Added' : 'Changed'}</em>`;
+		return `<tr class="${isNew ? 'd-test-new' : 'd-reveal'}"${d ? ` data-d="${d}"` : ''}>`
+			+ `<td>${d ? badge : ''}<b>${name}</b></td><td>${checks}</td><td>${input}</td><td>${expected}</td><td>${mocked}</td></tr>`;
+	}
+
+	scene('tests', {
+		width: 800,
+		height: 590,
+		html: () => `
+			<aside class="d-explorer" style="width:168px">
+				<div class="d-explorer-title">Explorer</div>
+				${file('src', { folder: true })}
+				${file('cart.ts')}
+				${file('checkout.ts')}
+				${file('test', { folder: true })}
+				${file('cart.test.ts', { d: 'target', badge: 'M' })}
+				${file('checkout.test.ts')}
+			</aside>
+			${main({
+				tabs: '<div class="d-tab d-tab-new" data-d="tab">cart.test.ts</div>',
+				viewNames: ['Raw', 'README', 'Structure'],
+				viewOn: 'README',
+				editor: `
+					<div class="d-view d-empty is-shown" data-panel="empty"><span class="d-empty-mark">◐</span>Open a test file to see what it proves</div>
+					<div class="d-view d-readme d-tests" data-panel="readme">
+						<p><b>Checks that the cart adds products and works out the right total.</b></p>
+						<h4 class="d-reveal">Tests</h4>
+						<table class="d-reveal">
+							<thead><tr><th>Test</th><th>What it checks</th><th>Input</th><th>Expected</th><th>Mocked</th></tr></thead>
+							<tbody data-d="rows">${cartTests.map(testRow).join('')}${testRow(addedTest)}</tbody>
+						</table>
+						<h4 class="d-reveal">Validation</h4>
+						<p class="d-reveal d-validation"><code>ExchangeRates</code> is mocked in 1 of <span data-d="count">4</span> tests<span class="d-mock-new" data-d="clock">, <code>Clock</code> in 1 of 5</span>. <span data-d="real">3 of 4 tests</span> run against the real code.</p>
+					</div>
+					<div class="d-review" data-d="review">
+						<span class="d-legend"><i class="is-added"></i>Added<i class="is-changed"></i>Changed</span>
+						<span class="d-btn">Reject All</span>
+						<span class="d-btn d-btn-primary">Accept All</span>
+					</div>`
+			})}`,
+
+		reset(ctx) {
+			ctx.$('file-target').classList.remove('is-active');
+			clear(ctx, 'is-in', 'is-added', 'is-changed');
+			ctx.$('count').textContent = '4';
+			ctx.$('real').textContent = '3 of 4 tests';
+			showView(ctx, 'empty');
+			ctx.place({ x: 470, y: 330 });
+		},
+
+		final(ctx) {
+			ctx.$('file-target').classList.add('is-active');
+			ctx.$('tab').classList.add('is-in');
+			ctx.$$('.d-reveal').forEach(element => element.classList.add('is-in'));
+			showView(ctx, 'readme');
+			testsChange(ctx);
+		},
+
+		async play(ctx) {
+			await ctx.sleep(700);
+			await ctx.click(ctx.$('file-target'));
+			ctx.$('file-target').classList.add('is-active');
+			ctx.$('tab').classList.add('is-in');
+			showView(ctx, 'readme');
+			await ctx.pop(ctx.$$('.d-reveal'), 260);
+			await ctx.sleep(2600);
+
+			// A change to the tests waits for review, its rows marked.
+			testsChange(ctx);
+			await ctx.sleep(3200);
+		}
+	});
+
+	/** Marks a change that edits one test and adds another, as the review shows it. */
+	function testsChange(ctx) {
+		ctx.$('test-coupon').classList.add('is-changed');
+		ctx.$('test-new').classList.add('is-in', 'is-added');
+		ctx.$('count').textContent = '5';
+		ctx.$('clock').classList.add('is-in');
+		ctx.$('real').textContent = '3 of 5 tests';
+		ctx.$('review').classList.add('is-in');
+	}
+
 	function reviewChange(ctx, animate) {
 		node(ctx, 'retry').classList.add('is-in', 'is-added');
 		ctx.showEdge(ctx.state.edges['service>retry'], animate);
