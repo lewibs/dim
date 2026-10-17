@@ -18,8 +18,19 @@ function detectOs() {
 	return undefined;
 }
 
+// Asset names are fixed by the Dim Release workflow in vscode-agentic-harness.
+const downloadBase = 'https://github.com/lewibs/vscode-agentic-harness/releases/latest/download/';
+const downloadFiles = {
+	macOS: 'Dim-darwin-arm64.zip',
+	Windows: 'Dim-win32-x64-setup.exe',
+	Linux: 'Dim-linux-x64.tar.gz',
+};
+
 const os = detectOs();
 if (os) {
+	document.querySelectorAll('[data-download]').forEach(link => {
+		link.href = downloadBase + downloadFiles[os];
+	});
 	document.querySelectorAll('[data-download-label]').forEach(label => {
 		label.textContent = `Download for ${os}`;
 	});
