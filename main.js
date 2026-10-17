@@ -18,8 +18,8 @@ function detectOs() {
 	return undefined;
 }
 
-// Asset names are fixed by the Dim Release workflow in vscode-agentic-harness.
-const downloadBase = 'https://github.com/lewibs/vscode-agentic-harness/releases/latest/download/';
+// Asset names are fixed by the Dim Release workflow in lewibs/dim.
+const downloadBase = 'https://github.com/lewibs/dim/releases/latest/download/';
 const downloadFiles = {
 	macOS: 'Dim-darwin-arm64.zip',
 	Windows: 'Dim-win32-x64-setup.exe',

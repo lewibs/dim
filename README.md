@@ -1,6 +1,6 @@
 # Dim landing page
 
-A static landing page for [Dim](https://github.com/lewibs/vscode-agentic-harness) written in plain HTML, CSS and JavaScript, with no build step.
+A static landing page for [Dim](https://github.com/lewibs/dim) written in plain HTML, CSS and JavaScript, with no build step.
 
 ```sh
 python3 -m http.server 8000   # then open http://localhost:8000
@@ -43,7 +43,7 @@ A scene is registered in `scenes.js` with `dimDemo.scene(name, { width, height, 
 
 ## Downloads
 
-The download buttons link to `https://github.com/lewibs/vscode-agentic-harness/releases/latest/download/<file>`, so a click downloads the installer for the visitor's OS straight away. The `Dim Release` workflow (`.github/workflows/dim-release.yml` in vscode-agentic-harness) builds the files and attaches them to a release whenever a `v*` tag is pushed:
+The download buttons link to `https://github.com/lewibs/dim/releases/latest/download/<file>`, so a click downloads the installer for the visitor's OS straight away. The `Dim Release` workflow (`.github/workflows/dim-release.yml` in lewibs/dim) builds the files and attaches them to a release whenever a `v*` tag is pushed:
 
 | OS | File |
 | --- | --- |
@@ -51,7 +51,7 @@ The download buttons link to `https://github.com/lewibs/vscode-agentic-harness/r
 | Windows | `Dim-win32-x64-setup.exe` (also `Dim-win32-x64.zip`) |
 | Linux | `Dim-linux-x64.tar.gz` (also `Dim-linux-x64.deb` when it builds) |
 
-To ship a new version: `git tag v0.2.0 && git push origin v0.2.0` in vscode-agentic-harness. The release goes live once all three builds finish.
+To ship a new version: `git tag v0.2.0 && git push origin v0.2.0` in lewibs/dim. The release goes live once all three builds finish.
 
 ## Hosting
 
